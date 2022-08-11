@@ -1,6 +1,6 @@
 import './App.css';
 import {Canvas} from "@react-three/fiber"
-import { Model } from './Shuttle'
+import { Model } from './Glb'
 import { PerspectiveCamera, OrbitControls } from '@react-three/drei';
 import { KeyLight, FillLight, RimLight } from "./Lighting"
 import { BackDrop, GroundPlane } from "./Stage"

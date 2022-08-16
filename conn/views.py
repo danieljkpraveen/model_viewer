@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 import mimetypes
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from dj_backend.settings import BASE_DIR
 
 def serve_one():
@@ -21,3 +21,18 @@ def serve_two():
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response
 
+def login_status(flag='invalid'):
+    if flag == 'loggedin':
+            jsn = {
+                "login": True,
+            }
+            print("valid user")
+            print(jsn)
+            return JsonResponse(jsn, safe=False)
+    elif flag == 'invalid':
+        jsn = {
+            "login": False,
+        }
+        print("invalid user")
+        print(jsn)
+        return JsonResponse(jsn, safe=False)

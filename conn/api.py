@@ -57,7 +57,6 @@ def signup_user(request, data: ReceivedData):
     if request.method == "POST":
         data_dict = data.dict()
         for set in all_set:
-            print(set['username'])
             if data_dict['name'] == set['username']:
                 jsn = {"signup":False,}
                 print("Failed")

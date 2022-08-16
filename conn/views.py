@@ -1,7 +1,7 @@
 # from django.shortcuts import render
 import mimetypes
 from django.http import HttpResponse, JsonResponse
-from dj_backend.settings import BASE_DIR
+from dj_backend.settings.base import BASE_DIR
 
 def serve_one():
     filename = 'car.glb'
@@ -14,7 +14,7 @@ def serve_one():
 
 def serve_two():
     filename = 'Space shuttle.glb'
-    filepath = str(BASE_DIR)+'/media/'+filename    
+    filepath = str(BASE_DIR)+'/media/'+filename
     path = open(filepath, 'rb')
     mime_type, _ = mimetypes.guess_type(filepath)
     response = HttpResponse(path, content_type=mime_type)

@@ -1,80 +1,56 @@
 import './App.css';
 import {Canvas} from "@react-three/fiber"
-import { Model } from './Glb'
-import { PerspectiveCamera, OrbitControls } from '@react-three/drei';
-import { KeyLight, FillLight, RimLight } from "./Lighting"
-import { BackDrop, GroundPlane } from "./Stage"
-import axios from "axios";
-// import {useEffect} from "react"
+import { ApiConfig } from './URLAPI';
+import { LoadModel } from './ModelLoad';
+import { useState } from 'react';
+import { modelTrigger} from './CallAPI'
+import { onLogin } from './Login';
+import {onSignup} from './Singup';
 
-function LoadModel(){
-  return(
-    <mesh>
-      <PerspectiveCamera position={[0,0,1]} fov={75} makeDefault/>
-      <GroundPlane />
-      <BackDrop />
-      <KeyLight brightness={10} color="#d2b4de" /> {/*purple shade*/}
-      <FillLight brightness={2.6} color="#aed6f1" /> {/*#blue shade*/}
-      <RimLight brightness={54} color="#a2d9ce" /> {/*#green shade*/}
-      <Model />
-      <OrbitControls />
-    </mesh>
-  );
-}
-
-// const apis = ["/api/models", "/api/models/1", "/api/models/2"];
-// const baseurl = "http://localhost:3000/";
-
-function ApiConfig() {
-  var i = 0;
-  function res_zero(){
-    return(
-      axios
-        .get("/api/model")
-      .then((res) => console.log(res.data)))
-  }
-  function res_one (i){
-    axios
-      .get("/api/model/1")
-      .then(console.log("modelOne triggering"),
-        modelTrigger(i)
-      )
-  }
-  function res_two (i){
-    axios
-    .get("/api/model/2")
-    .then((console.group("model triggering"),
-      modelTrigger(i)
-    ))
-  }
-
-  async function modelTrigger(i){
-    const response = await fetch(`http://127.0.0.1:8000/api/${i}/triggered`);
-    const json_response = await response.json();
-    console.log(json_response)
-  }
-
-  const currentURL = window.location.href;
-  console.log(currentURL);
-  if(currentURL === "http://localhost:3000/api/model"){
-    res_zero()
-  }
-  else if(currentURL === "http://localhost:3000/api/model/1"){
-    i = 1;
-    res_one(i)
-  }
-  else if(currentURL === "http://localhost:3000/api/model/2"){
-    i = 2;
-    res_two(i)
-  }
+let click = false;
+function onAnimate(){
+  console.log("animate cliecked");
+  console.log(click);
+  click = !click;
+  window.zx = click;
 }
 
 function App() {
+  const [index, setIndex] = useState('');
+
+  const onValuechange = event => {
+    setIndex(event.target.value);
+    console.log(event.target.value);
+  }
+
+  const onButton = event => {
+    event.preventDefault();
+    console.log(index);
+    if(index === '1' || index === '2'){
+      modelTrigger(index);
+      window.location.reload(true);
+    }
+    else{
+      window.alert("Invalid index");
+    }
+  }
+  
   return (
-    <Canvas style={{ background: "silver" }}>
-      <LoadModel />
-      <ApiConfig />
-    </Canvas>
+    <>
+      <header className='header'>
+        <input type="text" id="index" placeholder="index" onChange={onValuechange} value={index} required></input>
+        <button className='btn' id="button" onClick={onButton}>Go</button>
+        <button className='btn' id="animate" onClick={onAnimate}>Animate</button>
+        <input type="text" id="username" placeholder="username" required></input>
+        <input type="password" id="password" placeholder="password" required></input>
+        <input type="button" className='btn' id="login" value="Log in" onClick={onLogin}></input>
+        <button className='btn'id="signup" onClick={onSignup}>Sign up</button>
+      </header>
+      <Canvas style={{ background: "silver" }}>
+        <LoadModel />
+        <ApiConfig />
+      </Canvas>
+    </>
   );
 }
 

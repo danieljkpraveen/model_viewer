@@ -28,7 +28,7 @@ function App() {
     console.log(index);
     if(index === '1' || index === '2'){
       modelTrigger(index);
-      window.location.reload(true);
+      // window.location.reload(true);
     }
     else{
       window.alert("Invalid index");

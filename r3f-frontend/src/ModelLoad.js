@@ -17,7 +17,7 @@ export function LoadModel(){
       meshRef.current.rotation.y += 0.01;
     }
     else{
-      console.log("zx false");
+      // console.log("zx false");
       meshRef.current.rotation.x += 0;
       meshRef.current.rotation.y += 0;
     }

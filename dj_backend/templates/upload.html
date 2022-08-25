@@ -1,0 +1,14 @@
+<script>
+    function handleClick(){
+        window.close();
+    }
+</script>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="file" />
+    <button id="btn">Upload</button>
+    <div id="div-container"></div>
+</form>
+<form onsubmit="handleClick()">
+    <button>Finish</button>
+</form>

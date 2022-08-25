@@ -4,7 +4,8 @@ from django.http import JsonResponse
 from .models import GlbModel, LoginModel
 from .views import serve_one, serve_two, login_status
 from .utils import check_credentials
-from .schema import ReceivedData
+from .schema import ReceivedData#, FileUpload
+from django.core.files.storage import FileSystemStorage
 
 
 api = NinjaAPI()
@@ -68,4 +69,29 @@ def signup_user(request, data: ReceivedData):
         }
         return JsonResponse(jsn, safe=False)
 
+# @api.get('model/cache')
+# def model_cache(request):
+#     model_list = []
+#     for model in data:
+#         model_list.append(model['name'])
+#     jsn = {'models':model_list}
+#     return JsonResponse(jsn, safe=False)
 
+"""@api.api_operation(['GET', 'POST'], '/upload')
+def upload_file(request, data: FileUpload):
+    # print(request.FILES['model'])
+    if request.method == "POST":
+        # print("post received")
+        data_dict = data.dict()
+        print(data_dict['file'])
+        # print(request.FILES)
+        uploaded_file = data_dict['file']
+        print(uploaded_file)
+        fs = FileSystemStorage()
+        fs.save('test.glb', uploaded_file)
+        jsn = {"upload":True}
+        return JsonResponse(jsn, safe=False)
+    else:
+        jsn = {"upload":False}
+        return JsonResponse(jsn, safe=False)
+"""

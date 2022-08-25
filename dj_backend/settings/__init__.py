@@ -13,6 +13,8 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
 
+# DATA_UPLOAD_MAX_MEMORY_SIZE = 20000000
+
 ROOT_URLCONF = 'dj_backend.urls'
 
 WSGI_APPLICATION = 'dj_backend.wsgi.application'
@@ -32,7 +34,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 from .apps_config import *
 from .base import *
-from.database_config import *
+from .database_config import *
+from .media_config import *
 from .logger_config import *
 from .middlware_config import *
 from .password_auth import *

@@ -44,27 +44,12 @@ def login_status(flag='invalid'):
 def upload_model(request):
     query_data = GlbModel.objects.all().values('id', 'name')
     models_data = list(query_data.values())
-    # filename = ''
-    # for data in models_data:
-    #     print(data['name'])
     if request.method == "POST":
         uploaded_file = request.FILES['file']
-        # for data in models_data:
-        #     if uploaded_file.name == data['name']:
-        #         print("already exists")
-                # jsn={'upload':False}
-                # return JsonResponse(jsn)
         new_model = GlbModel(name=uploaded_file.name)
         new_model.save()
         fs = FileSystemStorage()
         fs.save(uploaded_file.name, uploaded_file)
-        # try:
-        #     fs.save(uploaded_file.name, uploaded_file)
-        #     jsn={'upload':True}
-        #     return JsonResponse(jsn)
-        # except:
-        #     jsn={'upload':False}
-        #     return JsonResponse(jsn)
     return render(request, 'upload.html')
 
 def load_by_name(request, mname):

@@ -1,6 +1,6 @@
 import './App.css';
 import {Canvas} from "@react-three/fiber"
-import { useState, useEffect} from 'react';
+import { useState } from 'react'; //, useEffect
 import { onLogin } from './Login';
 import {onSignup} from './Singup';
 import { BackDrop, GroundPlane } from "./Stage"
@@ -16,24 +16,26 @@ function onAnimate(){
 
 function App() {
   const [model, setModel] = useState('');
+  const [dropdata, setDrop] = useState(['car.glb', 'Space shuttle.glb']);
+  const [ikey, setKey] = useState('');
   let newmodel = [];
   let data;
 
   const url = "http://127.0.0.1:8000/model/cache";
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        data = json.models;
-        console.log(data);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
+  async function fetchData() {
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      data = json.models;
+      console.log(data);
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
 
-  useEffect(() => {
-    fetchData();
-  }, [model]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [model]);
 
   // const fileRef = useRef();
 
@@ -62,24 +64,39 @@ function App() {
   
   const onValuechange = event => {
     newmodel.push(event.target.value);
-    console.log(event.target.value);
   }
 
   const onButton = event => {
-    event.preventDefault();
-    console.log(data);
-    let inputModel = newmodel[newmodel.length-1]+'.glb';
-    if(data.includes(inputModel)){
-      console.log("if true");
-      setModel(newmodel[newmodel.length-1]);
-    }
-    setModel(newmodel[newmodel.length-1]);
+    fetchData()
+      .then(() => {
+        console.log(data);
+        let inputModel = newmodel[newmodel.length-1]+'.glb';
+        if(data.includes(inputModel)){
+          console.log("if true");
+          setModel(newmodel[newmodel.length-1]);
+        } else {
+          console.log("else true");
+          window.alert("model not found");
+        }
+      });
   }
 
   const onUpload = () => {
     console.log("upload clicked");
     window.open("http://127.0.0.1:8000/upload");
     fetchData();
+  }
+
+  const LoadOption = () => {
+    fetchData().then(() => {setDrop(data);});
+  }
+
+  const OptionModel = (selected) => {
+    console.log({ikey, selected});
+    setKey(selected);
+    // console.log(ikey);
+    let selectedname = selected.split(".");
+    setModel(selectedname[0]);
   }
 
   return (
@@ -91,6 +108,9 @@ function App() {
         {/* <button className='btn' id="upload" onClick={() => fileRef.current.click()}>Upload</button>
         <input type="file" id="model" ref={fileRef} onChange={uploadChange} multiple={false} style={{'display':'none'}} name="model_upload"></input> */}
         <button className='btn' id="animate" onClick={onAnimate}>Animate</button>
+        <select id="select" onClick={LoadOption} onChange={(Event) => OptionModel(Event.target.value)} value={ikey}>
+          {dropdata.map((value, index) => {return <option key={index} value={value}>{value}</option>})}
+        </select>
         <input type="text" id="username" placeholder="username" required></input>
         <input type="password" id="password" placeholder="password" required></input>
         <input type="button" className='btn' id="login" value="Log in" onClick={onLogin}></input>

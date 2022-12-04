@@ -1,0 +1,36 @@
+{
+  "name": "autovrse-assignment",
+  "version": "1.0.0",
+  "description": "[Clone the repo](git@github.com:danieljkpraveen/autovrse-assignment.git) ### Backend - Create a python virtual environment - Install the dependencies ```bash pip install -r requirements.txt ``` - To run the server execute run.sh ### Frontend - From the project repo, cd into r3f-frontend and execute the script that is inside requirements.txt - Do npm start to run the server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix r3f-frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danieljkpraveen/autovrse-assignment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danieljkpraveen/autovrse-assignment/issues"
+  },
+  "homepage": "https://github.com/danieljkpraveen/autovrse-assignment#readme",
+  "dependencies": {
+    "@prisma/client": "^4.4.0",
+    "@types/node": "^18.8.5",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "prisma": "^4.4.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  },
+  "devDependencies": {
+    "concurrently": "^7.4.0",
+    "nodemon": "^2.0.20"
+  }
+}
